@@ -15,6 +15,7 @@ mp.register_event('file-loaded', function()
     elseif was_image then
         mp.set_property('video-unscaled', 'no')
         mp.set_property('video-zoom', 0)
+        mp.set_property('panscan', 0)
         mp.command('disable-section image')
         was_image = false
     end
