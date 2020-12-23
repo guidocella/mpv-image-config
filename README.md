@@ -7,6 +7,7 @@ This is an example configuration for using mpv as an image viewer.
 * You can use quit-watch-later with directories of images
 * You can browse directories with both videos and images in one application
 * It supports Wayland unlike sxiv or feh
+* Background transparency on Wayland
 
 ## Why not use occivink/mpv-image-viewer?
 
