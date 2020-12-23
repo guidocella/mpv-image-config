@@ -8,12 +8,12 @@ mp.register_event('file-loaded', function()
         -- Or set osd-msg1 to show text permanently.
 
         if not was_image then
-            mp.set_property('video-unscaled', 'yes')
+            -- mp.set_property('video-unscaled', 'yes')
             mp.command('enable-section image')
             was_image = true
         end
     elseif was_image then
-        mp.set_property('video-unscaled', 'no')
+        -- mp.set_property('video-unscaled', 'no')
         mp.set_property('video-zoom', 0)
         mp.set_property('panscan', 0)
         mp.command('disable-section image')
