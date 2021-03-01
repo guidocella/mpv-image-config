@@ -1,9 +1,7 @@
 local was_image
 
 mp.register_event('file-loaded', function()
-    local container_fps = mp.get_property_number('container-fps')
-    if (container_fps == 1 or container_fps == nil and mp.get_property('video-format') == 'gif')
-        and not mp.get_property('audio-codec') then
+    if (mp.get_property_number('duration') or 0) < 2 then
         mp.command('show-text "[${playlist-pos-1}/${playlist-count}] ${filename} ${width}x${height} ${!gamma==0:☀}" 3000')
         -- Or set osd-msg1 to show text permanently.
 
