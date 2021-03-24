@@ -1,7 +1,3 @@
-mp.register_script_message('play-last', function()
-    mp.commandv('playlist-play-index', mp.get_property('playlist-count') - 1)
-end)
-
 mp.register_script_message('rm-file', function()
     os.remove(mp.get_property('path'))
     mp.command('playlist-remove current')
