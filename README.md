@@ -9,6 +9,10 @@ This is an example configuration for using mpv as an image viewer.
 * It supports Wayland unlike sxiv or feh
 * Background transparency on Wayland
 
+## How can I display thumbnails of images?
+
+Use https://github.com/occivink/mpv-gallery-view
+
 ## Why not use occivink/mpv-image-viewer?
 
 I wanted large images to start from the top-left corner and a "fill to width" keybinding.
