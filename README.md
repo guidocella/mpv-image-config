@@ -15,4 +15,4 @@ Use https://github.com/occivink/mpv-gallery-view
 
 ## Why not use occivink/mpv-image-viewer?
 
-I wanted large images to start from the top-left corner and a "fill to width" keybinding.
+I wanted large images only to start from the top right corner and a "fill to width" keybinding.
