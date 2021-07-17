@@ -12,8 +12,14 @@ local function is_image()
         end
     end
 
-    local duration = mp.get_property_native('duration')
-    return duration == nil or duration == 0 or duration == 0.1 or duration == 1
+    -- container-fps is nil and thus estimated-frame-count is 0 for certain
+    -- videos like wmv and even certain h264 mkv, and also when lavfi-complex
+    -- is used, so check the duration too.
+    -- duration can be unavailable while loading very large images.
+    local duration = mp.get_property_native('duration', 0)
+    -- 1-frame gifs have nil container-fps and 0.1 duration.
+    -- Some large jpgs have duration 1 instead of 0.
+    return mp.get_property_native('container-fps', 1) == 1 and (duration == 0 or duration == 0.1 or duration == 1)
 end
 
 mp.register_event('file-loaded', function()
