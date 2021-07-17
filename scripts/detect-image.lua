@@ -22,6 +22,17 @@ local function is_image()
     return mp.get_property_native('container-fps', 1) == 1 and (duration == 0 or duration == 0.1 or duration == 1)
 end
 
+local function is_video()
+    -- vid is nil with lavfi-complex.
+    for _, track in pairs(mp.get_property_native('track-list')) do
+        if track.type == 'video' and track.selected then
+            return not track.albumart
+        end
+    end
+
+    return false
+end
+
 mp.register_event('file-loaded', function()
     if is_image() then
         mp.command('show-text "[${playlist-pos-1}/${playlist-count}] ${filename} ${width}x${height} ${!gamma==0:☀}" 3000')
@@ -31,15 +42,23 @@ mp.register_event('file-loaded', function()
             if not options.upscale_small then
                 mp.set_property('video-unscaled', 'yes')
             end
+            mp.set_property('linear-downscaling', 'no') -- makes some manga brighter
+            mp.set_property('deband', 'no') -- rarely useful with images
             mp.command('enable-section image')
             was_image = true
         end
-    elseif was_image then
-        mp.set_property('video-unscaled', 'no')
-        mp.set_property('video-zoom', 0)
-        mp.set_property('panscan', 0)
-        mp.command('disable-section image')
-        was_image = false
+    elseif is_video() then
+        mp.command('show-text "[${playlist-pos-1}/${playlist-count}] ${media-title} ${width}x${height} ${?percent-pos==0:${duration}}${!percent-pos==0:${time-pos} / ${duration} (${percent-pos}%)} ${!gamma==0:☀}" 10000')
+
+        if was_image then
+            mp.set_property('video-unscaled', 'no')
+            mp.set_property('video-zoom', 0)
+            mp.set_property('panscan', 0)
+            mp.set_property('linear-downscaling', 'yes')
+            mp.set_property('deband', 'yes')
+            mp.command('disable-section image')
+            was_image = false
+        end
     end
 end)
 
