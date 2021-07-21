@@ -2,6 +2,7 @@ local options = {
     upscale_small = true,
 }
 local was_image
+local osc_backup = mp.get_property('osc')
 
 require 'mp.options'.read_options(options, nil, function () end)
 
@@ -44,6 +45,7 @@ mp.register_event('file-loaded', function()
             end
             mp.set_property('linear-downscaling', 'no') -- makes some manga brighter
             mp.set_property('deband', 'no') -- rarely useful with images
+            mp.set_property('osc', 'no')
             mp.command('enable-section image')
             was_image = true
         end
@@ -56,6 +58,7 @@ mp.register_event('file-loaded', function()
             mp.set_property('panscan', 0)
             mp.set_property('linear-downscaling', 'yes')
             mp.set_property('deband', 'yes')
+            mp.set_property('osc', osc_backup)
             mp.command('disable-section image')
             was_image = false
         end
