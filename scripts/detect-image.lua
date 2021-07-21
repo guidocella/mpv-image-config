@@ -62,8 +62,8 @@ mp.register_event('file-loaded', function()
     end
 end)
 
--- Align images bigger than the window to the top right corner,
--- and smaller ones to the center.
+-- Align images bigger than the window to the top right corner.
+local dont_center
 mp.observe_property('dwidth', 'native', function (_, dwidth)
     local dims = mp.get_property_native('osd-dimensions')
     if not dwidth or not is_image() then return end
@@ -82,12 +82,36 @@ mp.observe_property('dwidth', 'native', function (_, dwidth)
         mp.set_property_bool('video-unscaled', unscaled)
         -- dims = mp.get_property_native('osd-dimensions')  this isn't recalculated immediately, so just align the image based on dwidth and dheight
         if not old_unscaled and unscaled then
-            mp.set_property('video-align-x', dwidth > dims.w and 1 or 0)
-            mp.set_property('video-align-y', dheight > dims.h and -1 or 0)
+            if dwidth > dims.w then
+                mp.set_property('video-align-x', 1)
+            end
+            if dheight > dims.h then
+                mp.set_property('video-align-y', -1)
+            end
+            dont_center = true
             return
         end
     end
 
-    mp.set_property('video-align-x', dims.w - dims.ml - dims.mr > dims.w and 1 or 0)
-    mp.set_property('video-align-y', dims.h - dims.mt - dims.mb > dims.h and -1 or 0)
+    if dims.w - dims.ml - dims.mr > dims.w then
+        mp.set_property('video-align-x', 1)
+    end
+    if dims.h - dims.mt - dims.mb > dims.h then
+        mp.set_property('video-align-y', -1)
+    end
+end)
+
+-- Center the image when it's smaller than the window.
+mp.observe_property('osd-dimensions', 'native', function (_, dims)
+    if dont_center then
+        dont_center = false
+        return
+    end
+
+    if dims.w - dims.ml - dims.mr < dims.w then
+        mp.set_property('video-align-x', 0)
+    end
+    if dims.h - dims.mt - dims.mb < dims.h then
+        mp.set_property('video-align-y', 0)
+    end
 end)
