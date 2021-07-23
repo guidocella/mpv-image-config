@@ -1,3 +1,13 @@
+local options = {
+    gesture_click = 'playlist-next force',
+    gesture_up = 'no-osd set video-zoom 0',
+    gesture_right = 'no-osd cycle-values video-unscaled yes no; no-osd set video-zoom 0',
+    gesture_down = 'script-message playlist-view-open',
+    gesture_left = 'playlist-prev',
+}
+
+require 'mp.options'.read_options(options)
+
 mp.register_script_message('rm-file', function()
     os.remove(mp.get_property('path'))
     mp.command('playlist-remove current')
@@ -11,6 +21,23 @@ mp.register_script_message('pan-image', function (axis, amount)
         mp.commandv('add', 'video-align-' .. axis, amount * 2 * osd_dimension / (dimension - osd_dimension))
     end
 end)
+
+local old_mouse_pos
+mp.add_key_binding(nil, 'gesture', function (table)
+    if table.event == 'down' then
+        old_mouse_pos = mp.get_property_native('mouse-pos')
+        return
+    end
+
+    local mouse_pos = mp.get_property_native('mouse-pos')
+    if math.abs(mouse_pos.y - old_mouse_pos.y) > math.abs(mouse_pos.x - old_mouse_pos.x) then
+        mp.command(options[mouse_pos.y > old_mouse_pos.y and 'gesture_down' or 'gesture_up'])
+    elseif mouse_pos.x == old_mouse_pos.x then
+        mp.command(options.gesture_click)
+    else
+        mp.command(options[mouse_pos.x > old_mouse_pos.x and 'gesture_right' or 'gesture_left'])
+    end
+end, { complex = true })
 
 mp.add_key_binding(nil, 'align-to-cursor', function (table)
     if table.event == 'up' then
