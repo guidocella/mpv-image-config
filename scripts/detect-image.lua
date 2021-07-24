@@ -56,13 +56,13 @@ mp.register_event('file-loaded', function()
         end
     elseif is_video() then
         optional_command(options.command_on_video_loaded)
+        mp.set_property('deband', 'yes')
+        mp.set_property('linear-downscaling', 'yes')
 
         if was_image then
             mp.set_property('video-unscaled', 'no')
             mp.set_property('video-zoom', 0)
             mp.set_property('panscan', 0)
-            mp.set_property('linear-downscaling', 'yes')
-            mp.set_property('deband', 'yes')
             mp.set_property('osc', osc_backup)
             mp.command('disable-section image')
             optional_command(options.command_on_non_image_loaded)
