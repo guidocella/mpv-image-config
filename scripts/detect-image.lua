@@ -1,5 +1,5 @@
 local options = {
-    upscale_small = true,
+    first_unscaled = true,
 }
 local was_image
 local osc_backup = mp.get_property('osc')
@@ -40,14 +40,10 @@ mp.register_event('file-loaded', function()
         -- Or set osd-msg1 to show text permanently.
 
         if not was_image then
-            if not options.upscale_small then
-                mp.set_property('video-unscaled', 'yes')
-            end
             mp.set_property('linear-downscaling', 'no') -- makes some manga brighter
             mp.set_property('deband', 'no') -- rarely useful with images
             mp.set_property('osc', 'no')
             mp.command('enable-section image')
-            was_image = true
         end
     elseif is_video() then
         mp.command('show-text "[${playlist-pos-1}/${playlist-count}] ${media-title} ${width}x${height} ${?percent-pos==0:${duration}}${!percent-pos==0:${time-pos} / ${duration} (${percent-pos}%)} ${!gamma==0:☀}" 10000')
@@ -71,20 +67,22 @@ mp.observe_property('dwidth', 'native', function (_, dwidth)
     local dims = mp.get_property_native('osd-dimensions')
     if not dwidth or not is_image() then return end
 
-    local dheight = mp.get_property_native('dheight')
-
     -- osd-width and osd-height, and even display-width and display-height, can be unavailable when the first image loads.
     if dims.w == 0 then
         dims.w = mp.get_property_native('display-width', 1920)
         dims.h = mp.get_property_native('display-height', 1080)
     end
 
-    if options.upscale_small then
-        local old_unscaled = mp.get_property_bool('video-unscaled')
-        local unscaled = (dwidth > dims.w or dheight > dims.h) and mp.get_property_native('panscan') == 0
-        mp.set_property_bool('video-unscaled', unscaled)
-        -- dims = mp.get_property_native('osd-dimensions')  this isn't recalculated immediately, so just align the image based on dwidth and dheight
-        if not old_unscaled and unscaled then
+    if not was_image then
+        was_image = true
+        if not options.first_unscaled then return end
+
+        local dheight = mp.get_property_native('dheight')
+        if not mp.get_property_bool('video-unscaled') and (dwidth > dims.w or dheight > dims.h) then
+            mp.set_property('video-unscaled', 'yes')
+
+            -- dims = mp.get_property_native('osd-dimensions')
+            -- this isn't recalculated immediately, so just align the image based on dwidth and dheight
             if dwidth > dims.w then
                 mp.set_property('video-align-x', 1)
             end
