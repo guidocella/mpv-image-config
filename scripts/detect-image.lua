@@ -88,7 +88,7 @@ mp.observe_property('dwidth', 'native', function (_, dwidth)
         if not options.first_unscaled then return end
 
         local dheight = mp.get_property_native('dheight')
-        if not mp.get_property_bool('video-unscaled') and (dwidth > dims.w or dheight > dims.h) then
+        if not mp.get_property_bool('video-unscaled') and (dwidth > dims.w or dheight > dims.h) and mp.get_property_native('image-display-duration') == math.huge then
             mp.set_property('video-unscaled', 'yes')
 
             -- dims = mp.get_property_native('osd-dimensions')
