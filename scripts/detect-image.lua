@@ -1,5 +1,6 @@
 local options = {
     first_unscaled = true,
+    align_x = 1,
 }
 local was_image
 local osc_backup = mp.get_property('osc')
@@ -84,7 +85,7 @@ mp.observe_property('dwidth', 'native', function (_, dwidth)
             -- dims = mp.get_property_native('osd-dimensions')
             -- this isn't recalculated immediately, so just align the image based on dwidth and dheight
             if dwidth > dims.w then
-                mp.set_property('video-align-x', 1)
+                mp.set_property('video-align-x', options.align_x)
             end
             if dheight > dims.h then
                 mp.set_property('video-align-y', -1)
@@ -95,7 +96,7 @@ mp.observe_property('dwidth', 'native', function (_, dwidth)
     end
 
     if dims.w - dims.ml - dims.mr > dims.w then
-        mp.set_property('video-align-x', 1)
+        mp.set_property('video-align-x', options.align_x)
     end
     if dims.h - dims.mt - dims.mb > dims.h then
         mp.set_property('video-align-y', -1)
