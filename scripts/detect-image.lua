@@ -1,6 +1,9 @@
 local options = {
     first_unscaled = true,
     align_x = 1,
+    command_on_image_loaded = 'show-text "[${playlist-pos-1}/${playlist-count}] ${filename} ${width}x${height} ${!gamma==0:☀}" 3000',
+    command_on_video_loaded = 'show-text "[${playlist-pos-1}/${playlist-count}] ${media-title} ${width}x${height} ${?percent-pos==0:${duration}}${!percent-pos==0:${time-pos} / ${duration} (${percent-pos}%)} ${!gamma==0:☀}" 10000',
+    command_on_non_image_loaded = '',
 }
 local was_image
 local osc_backup = mp.get_property('osc')
@@ -35,10 +38,15 @@ local function is_video()
     return false
 end
 
+local function optional_command(command)
+    if command ~= '' then
+        mp.command(command)
+    end
+end
+
 mp.register_event('file-loaded', function()
     if is_image() then
-        mp.command('show-text "[${playlist-pos-1}/${playlist-count}] ${filename} ${width}x${height} ${!gamma==0:☀}" 3000')
-        -- Or set osd-msg1 to show text permanently.
+        optional_command(options.command_on_image_loaded)
 
         if not was_image then
             mp.set_property('linear-downscaling', 'no') -- makes some manga brighter
@@ -47,7 +55,7 @@ mp.register_event('file-loaded', function()
             mp.command('enable-section image')
         end
     elseif is_video() then
-        mp.command('show-text "[${playlist-pos-1}/${playlist-count}] ${media-title} ${width}x${height} ${?percent-pos==0:${duration}}${!percent-pos==0:${time-pos} / ${duration} (${percent-pos}%)} ${!gamma==0:☀}" 10000')
+        optional_command(options.command_on_video_loaded)
 
         if was_image then
             mp.set_property('video-unscaled', 'no')
@@ -57,6 +65,7 @@ mp.register_event('file-loaded', function()
             mp.set_property('deband', 'yes')
             mp.set_property('osc', osc_backup)
             mp.command('disable-section image')
+            optional_command(options.command_on_non_image_loaded)
             was_image = false
         end
     end
