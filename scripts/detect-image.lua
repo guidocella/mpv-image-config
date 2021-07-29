@@ -1,5 +1,5 @@
 local options = {
-    first_unscaled = true,
+    first_unscaled = false,
     align_x = 1,
     command_on_image_loaded = 'show-text "[${playlist-pos-1}/${playlist-count}] ${filename} ${width}x${height} ${!gamma==0:☀}" 3000',
     command_on_video_loaded = 'show-text "[${playlist-pos-1}/${playlist-count}] ${media-title} ${width}x${height} ${?percent-pos==0:${duration}}${!percent-pos==0:${time-pos} / ${duration} (${percent-pos}%)} ${!gamma==0:☀}" 10000',
