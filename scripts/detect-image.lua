@@ -49,8 +49,8 @@ mp.register_event('file-loaded', function()
         optional_command(options.command_on_image_loaded)
 
         if not was_image then
-            mp.set_property('linear-downscaling', 'no') -- makes some manga brighter
-            mp.set_property('deband', 'no') -- rarely useful with images
+            mp.set_property('linear-downscaling', 'no')
+            mp.set_property('deband', 'no')
             mp.set_property('osc', 'no')
             mp.command('enable-section image')
         end
