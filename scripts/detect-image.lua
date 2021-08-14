@@ -6,7 +6,6 @@ local options = {
     command_on_non_image_loaded = '',
 }
 local was_image
-local osc_backup = mp.get_property('osc')
 
 require 'mp.options'.read_options(options, nil, function () end)
 
@@ -47,23 +46,20 @@ end
 mp.register_event('file-loaded', function()
     if is_image() then
         optional_command(options.command_on_image_loaded)
+        mp.set_property('file-local-options/osc', 'no')
 
         if not was_image then
-            mp.set_property('linear-downscaling', 'no')
-            mp.set_property('deband', 'no')
-            mp.set_property('osc', 'no')
             mp.command('enable-section image')
         end
     elseif is_video() then
         optional_command(options.command_on_video_loaded)
-        mp.set_property('deband', 'yes')
-        mp.set_property('linear-downscaling', 'yes')
+        mp.set_property('file-local-options/deband', 'yes')
+        mp.set_property('file-local-options/linear-downscaling', 'yes')
 
         if was_image then
             mp.set_property('video-unscaled', 'no')
             mp.set_property('video-zoom', 0)
             mp.set_property('panscan', 0)
-            mp.set_property('osc', osc_backup)
             mp.command('disable-section image')
             optional_command(options.command_on_non_image_loaded)
             was_image = false
