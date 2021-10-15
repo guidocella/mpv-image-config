@@ -1,4 +1,4 @@
-This is an example configuration for using mpv as an image viewer.
+This is an example configuration for using mpv as an image viewer. Version 0.34 is needed for the `track-list/N/image` sub-property. Use this by copying what you want to use from `mpv.conf` and `input.conf` into your versions of these files, and copying or symlinking into `~~/scripts` `scripts/align-images.lua` for automatically aligning images, and `scripts/image-keybindings.lua` for the script messages used by `input.conf`.
 
 ## Why?
 
