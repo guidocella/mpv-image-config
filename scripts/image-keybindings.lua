@@ -83,3 +83,38 @@ mp.add_key_binding(nil, 'drag-to-pan', function (table)
         end
     end)
 end, { complex = true })
+
+local is_intial_callback
+local function undo_lavfi_complex()
+    if is_intial_callback then
+        is_intial_callback = false
+        return
+    end
+    mp.set_property('lavfi-complex', '')
+    mp.set_property('vid', 1)
+    mp.unobserve_property(undo_lavfi_complex)
+end
+
+mp.register_script_message('double-page-mode', function()
+    if mp.get_property_native('lavfi-complex') ~= '' then
+        undo_lavfi_complex()
+        return
+    end
+
+    local previous = mp.get_property('playlist/' .. mp.get_property('playlist-pos') - 1 .. '/filename')
+    if not previous then
+        mp.msg.error('double-page-mode only works if there is a previous playlist entry.')
+        return
+    end
+    mp.commandv('video-add', previous)
+    local track_list = mp.get_property_native('track-list')
+    if track_list[1]['demux-w'] ~= track_list[2]['demux-w'] or track_list[1]['demux-h'] ~= track_list[2]['demux-h'] then
+        mp.set_property('vid', 1)
+        mp.command('video-remove 2')
+        mp.msg.error('The 2 images must have the same dimensions.')
+        return
+    end
+    mp.set_property('lavfi-complex', '[vid1] [vid2] hstack [vo]')
+    is_intial_callback = true
+    mp.observe_property('playlist-pos', 'native', undo_lavfi_complex)
+end)
