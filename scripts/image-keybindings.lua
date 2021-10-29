@@ -69,13 +69,13 @@ mp.add_key_binding(nil, 'drag-to-pan', function (table)
     local old_video_align_y = mp.get_property_native('video-align-y')
     mp.add_forced_key_binding('MOUSE_MOVE', 'drag-to-pan-mouse-move', function()
         local mouse_pos = mp.get_property_native('mouse-pos')
-        if dims.w - dims.ml - dims.mr > dims.w  then
+        if dims.w - dims.ml - dims.mr > dims.w then
             mp.set_property(
                 'video-align-x',
                 math.min(1, math.max(old_video_align_x + 2 * (mouse_pos.x - old_mouse_pos.x) / (dims.ml + dims.mr), -1))
             )
         end
-        if dims.h - dims.mt - dims.mb > dims.h  then
+        if dims.h - dims.mt - dims.mb > dims.h then
             mp.set_property(
                 'video-align-y',
                 math.min(1, math.max(old_video_align_y + 2 * (mouse_pos.y - old_mouse_pos.y) / (dims.mt + dims.mb), -1))
