@@ -17,6 +17,9 @@ mp.register_script_message('pan-image', function (axis, amount)
     local dims = mp.get_property_native('osd-dimensions')
     local dimension = axis == 'x' and dims.w - dims.ml - dims.mr or dims.h - dims.mt - dims.mb
     local osd_dimension = axis == 'x' and dims.w or dims.h
+    -- 1 video-align shifts the OSD by (dimension - osd_dimension) / 2 pixels
+    -- so the equation to find how much video-align to add to offset the OSD by osd_dimension is
+    -- x/1 = osd_dimension / ((dimension - osd_dimension) / 2)
     if dimension > osd_dimension then
         mp.commandv('add', 'video-align-' .. axis, amount * 2 * osd_dimension / (dimension - osd_dimension))
     end
@@ -69,6 +72,9 @@ mp.add_key_binding(nil, 'drag-to-pan', function (table)
     local old_video_align_y = mp.get_property_native('video-align-y')
     mp.add_forced_key_binding('MOUSE_MOVE', 'drag-to-pan-mouse-move', function()
         local mouse_pos = mp.get_property_native('mouse-pos')
+        -- 1 video-align shifts the OSD by (dimension - osd_dimension) / 2 pixels
+        -- so the equation to find how much video-align to add to offset the OSD by the difference in mouse position is
+        -- x/1 = (mouse_pos - old_mouse_pos) / ((dimension - osd_dimension) / 2)
         if dims.w - dims.ml - dims.mr > dims.w then
             mp.set_property(
                 'video-align-x',
