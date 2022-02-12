@@ -1,4 +1,4 @@
-This is an example configuration for using mpv as an image viewer. Version 0.34 is needed for the `track-list/N/image` sub-property. Use this by copying what you want to use from `mpv.conf` and `input.conf` into your versions of these files, and copying or symlinking into `~~/scripts` `scripts/align-images.lua` for automatically aligning images, and `scripts/image-bindings.lua` for the script messages used by `input.conf`.
+This is an example configuration for using mpv as an image viewer. Version 0.34 is needed for the `track-list/N/image` sub-property. Use this by copying what you want to use from `mpv.conf` and `input.conf` into your versions of these files, and copying or symlinking into `~~/scripts` `scripts/align-images.lua` for automatically aligning the OSD to the top-right corner of images bigger than the OSD and centering images smaller than the OSD, and `scripts/image-bindings.lua` for the script messages used by `input.conf`.
 
 ## Why?
 
@@ -12,7 +12,3 @@ This is an example configuration for using mpv as an image viewer. Version 0.34 
 ## How can I display thumbnails of images?
 
 Use https://github.com/occivink/mpv-gallery-view
-
-## Why not use occivink/mpv-image-viewer?
-
-I wanted large images only to start from the top right corner and a "fill to width" keybinding.
