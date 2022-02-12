@@ -9,7 +9,9 @@ require 'mp.options'.read_options(options, nil, function () end)
 -- Align images bigger than the window to the top right corner.
 local dont_center
 mp.observe_property('video-out-params', 'native', function (_, params)
-    if not params or not mp.get_property_native('current-tracks/video/image') then return end
+    if not mp.get_property_native('current-tracks/video/image') then
+        return
+    end
 
     local dims = mp.get_property_native('osd-dimensions')
     -- osd-width and osd-height, and even display-width and display-height, can be unavailable when the first image loads.
