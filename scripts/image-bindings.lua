@@ -136,7 +136,9 @@ mp.register_script_message('double-page-mode', function()
 
     local previous = mp.get_property('playlist/' .. mp.get_property('playlist-pos') - 1 .. '/filename')
     if not previous then
-        mp.msg.error('double-page-mode only works if there is a previous playlist entry.')
+        local error = 'double-page-mode only works if there is a previous playlist entry.'
+        mp.msg.error(error)
+        mp.osd_message(error)
         return
     end
     mp.commandv('video-add', previous)
@@ -144,7 +146,9 @@ mp.register_script_message('double-page-mode', function()
     if track_list[1]['demux-w'] ~= track_list[2]['demux-w'] or track_list[1]['demux-h'] ~= track_list[2]['demux-h'] then
         mp.set_property('vid', 1)
         mp.command('video-remove 2')
-        mp.msg.error('The 2 images must have the same dimensions.')
+        local error = 'The 2 images must have the same dimensions.'
+        mp.msg.error(error)
+        mp.osd_message(error)
         return
     end
     mp.set_property('lavfi-complex', '[vid1] [vid2] hstack [vo]')
