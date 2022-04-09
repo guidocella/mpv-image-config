@@ -22,9 +22,9 @@ mp.observe_property('video-out-params', 'native', function (_, params)
 
     if is_first then
         is_first = false
-        if not options.first_unscaled then return end
-
-        if not mp.get_property_bool('video-unscaled') and (params.dw > dims.w or params.dh > dims.h) and mp.get_property_native('image-display-duration') == math.huge then
+        if options.first_unscaled and not mp.get_property_bool('video-unscaled')
+           and (params.dw > dims.w or params.dh > dims.h)
+           and mp.get_property_native('image-display-duration') == math.huge then
             mp.set_property('video-unscaled', 'yes')
 
             -- dims = mp.get_property_native('osd-dimensions')
