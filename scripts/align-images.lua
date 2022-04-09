@@ -40,10 +40,10 @@ mp.observe_property('video-out-params', 'native', function (_, params)
         end
     end
 
-    if dims.w - dims.ml - dims.mr > dims.w then
+    if dims.ml + dims.mr < 0 then
         mp.set_property('video-align-x', options.align_x)
     end
-    if dims.h - dims.mt - dims.mb > dims.h then
+    if dims.mt + dims.mb < 0 then
         mp.set_property('video-align-y', -1)
     end
 end)
@@ -55,10 +55,10 @@ mp.observe_property('osd-dimensions', 'native', function (_, dims)
         return
     end
 
-    if dims.w - dims.ml - dims.mr < dims.w then
+    if dims.ml + dims.mr > 0 then
         mp.set_property('video-align-x', 0)
     end
-    if dims.h - dims.mt - dims.mb < dims.h then
+    if dims.mt + dims.mb > 0 then
         mp.set_property('video-align-y', 0)
     end
 end)
