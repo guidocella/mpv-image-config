@@ -13,7 +13,7 @@ mpv 0.34 is needed for the `track-list/N/image` sub-property.
 
 ## Usage
 
-Copy what you want to use from `mpv.conf` and `input.conf` into your versions of these files, and copying or symlinking into `~~/scripts` `scripts/align-images.lua` for automatically aligning the OSD to the top-right corner of images bigger than the OSD and centering images smaller than the OSD, and `scripts/image-bindings.lua` for the script messages used by `input.conf`.
+Copy what you want to use from `mpv.conf` and `input.conf` into your versions of these files, and copy or symlink into `~~/scripts` `scripts/align-images.lua` for automatically aligning the OSD to the top-right corner of images bigger than the OSD and centering images smaller than the OSD, and `scripts/image-bindings.lua` for the script messages used by `input.conf`.
 
 ## How can I display thumbnails of images?
 
