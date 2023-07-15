@@ -1,7 +1,5 @@
 This is an example configuration for using mpv as an image viewer.
 
-mpv 0.34 is needed for the `track-list/N/image` sub-property.
-
 ## Why?
 
 * mpv is feature rich and far more extensible than any image viewer. You can easily add original key bindings, set up conditional profiles and do pretty much anything with Lua scripts
