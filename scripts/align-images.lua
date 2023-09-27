@@ -11,10 +11,10 @@ mp.observe_property('video-out-params', nil, function ()
     end
 
     local dims = mp.get_property_native('osd-dimensions')
-    -- osd-width and osd-height, and even display-width and display-height, can be unavailable when the first image loads.
+    -- osd-width and osd-height can be unavailable when the first image loads.
     if dims.w == 0 then
-        dims.w = mp.get_property_native('display-width', 1920)
-        dims.h = mp.get_property_native('display-height', 1080)
+        dims.w = mp.get_property_native('display-width')
+        dims.h = mp.get_property_native('display-height')
     end
 
     if dims.ml + dims.mr < 0 then
