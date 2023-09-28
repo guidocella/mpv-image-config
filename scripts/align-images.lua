@@ -5,7 +5,7 @@ local options = {
 require 'mp.options'.read_options(options, nil, function () end)
 
 -- Align the OSD to the top right corner of images bigger than the OSD.
-mp.observe_property('video-out-params', nil, function ()
+mp.register_event('video-reconfig', function ()
     if not mp.get_property_native('current-tracks/video/image') then
         return
     end
