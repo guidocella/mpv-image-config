@@ -153,5 +153,5 @@ mp.register_script_message('double-page-mode', function()
     end
     mp.set_property('lavfi-complex', '[vid1] [vid2] hstack [vo]')
     is_intial_callback = true
-    mp.observe_property('playlist-pos', 'native', undo_lavfi_complex)
+    mp.observe_property('playlist-pos', nil, undo_lavfi_complex)
 end)
