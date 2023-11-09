@@ -146,15 +146,12 @@ mp.register_script_message('double-page-mode', function()
     mp.commandv('video-add', previous, 'auto')
     local track_list = mp.get_property_native('track-list')
 
+    local graph = '[vid1] [vid2] hstack [vo]'
     if track_list[1]['demux-w'] ~= track_list[2]['demux-w'] or track_list[1]['demux-h'] ~= track_list[2]['demux-h'] then
-        mp.command('video-remove 2')
-        local error = 'The 2 images must have the same dimensions.'
-        mp.msg.error(error)
-        mp.osd_message(error)
-        return
+        graph = '[vid2] scale=' .. track_list[1]['demux-w'] .. ':' .. track_list[1]['demux-h'] .. ' [vid2-scaled]; [vid1] [vid2-scaled] hstack [vo]'
     end
 
-    mp.set_property('lavfi-complex', '[vid1] [vid2] hstack [vo]')
+    mp.set_property('lavfi-complex', graph)
 
     is_intial_callback = true
     mp.observe_property('playlist-pos', nil, undo_lavfi_complex)
