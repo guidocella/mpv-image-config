@@ -143,11 +143,10 @@ mp.register_script_message('double-page-mode', function()
         return
     end
 
-    mp.commandv('video-add', previous)
+    mp.commandv('video-add', previous, 'auto')
     local track_list = mp.get_property_native('track-list')
 
     if track_list[1]['demux-w'] ~= track_list[2]['demux-w'] or track_list[1]['demux-h'] ~= track_list[2]['demux-h'] then
-        mp.set_property('vid', 1)
         mp.command('video-remove 2')
         local error = 'The 2 images must have the same dimensions.'
         mp.msg.error(error)
