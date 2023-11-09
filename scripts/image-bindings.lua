@@ -135,14 +135,17 @@ mp.register_script_message('double-page-mode', function()
     end
 
     local previous = mp.get_property('playlist/' .. mp.get_property('playlist-pos') - 1 .. '/filename')
+
     if not previous then
         local error = 'double-page-mode only works if there is a previous playlist entry.'
         mp.msg.error(error)
         mp.osd_message(error)
         return
     end
+
     mp.commandv('video-add', previous)
     local track_list = mp.get_property_native('track-list')
+
     if track_list[1]['demux-w'] ~= track_list[2]['demux-w'] or track_list[1]['demux-h'] ~= track_list[2]['demux-h'] then
         mp.set_property('vid', 1)
         mp.command('video-remove 2')
@@ -151,7 +154,9 @@ mp.register_script_message('double-page-mode', function()
         mp.osd_message(error)
         return
     end
+
     mp.set_property('lavfi-complex', '[vid1] [vid2] hstack [vo]')
+
     is_intial_callback = true
     mp.observe_property('playlist-pos', nil, undo_lavfi_complex)
 end)
