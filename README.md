@@ -15,4 +15,4 @@ Copy what you want to use from `mpv.conf` and `input.conf` into your versions of
 
 ## How can I display thumbnails of images?
 
-Use https://github.com/occivink/mpv-gallery-view
+Use [mpv-gallery-view](https://github.com/occivink/mpv-gallery-view)
