@@ -11,7 +11,7 @@ This is an example configuration for using mpv as an image viewer.
 
 ## Usage
 
-Copy what you want to use from `mpv.conf` and `input.conf` into your versions of these files, and copy or symlink into `~~/scripts` `scripts/align-images.lua` for automatically aligning the OSD to the top-right corner of images bigger than the OSD and centering images smaller than the OSD, and `scripts/image-bindings.lua` for the script messages used by `input.conf`.
+Copy what you want to use from `mpv.conf` and `input.conf` into your versions of these files, and copy or symlink into `~~/scripts` `scripts/align-images.lua` to automatically align the OSD to the top-right corner of images bigger than the OSD and to center images smaller than the OSD, and `scripts/image-bindings.lua` for the script messages used by `input.conf`.
 
 ## How can I display thumbnails of images?
 
