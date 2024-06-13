@@ -125,6 +125,7 @@ local function undo_lavfi_complex()
     end
     mp.set_property('lavfi-complex', '')
     mp.set_property('vid', 1)
+    mp.command('video-remove 2')
     mp.unobserve_property(undo_lavfi_complex)
 end
 
