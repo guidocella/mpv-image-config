@@ -6,8 +6,8 @@ This is an example configuration for using mpv as an image viewer.
 * Zoomed images look better than in image viewers (or at least the ones I previously used), and you can even improve image quality further with GLSL shaders like [FSR](https://gist.github.com/agyild/82219c545228d70c5604f865ce0b0ce5) and [Anime4k](https://github.com/bloc97/Anime4K)
 * You can use quit-watch-later with directories of images
 * You can browse directories with both videos and images in one application
-* It supports Wayland unlike sxiv or feh
 * Background transparency
+* It supports Wayland unlike sxiv or feh
 
 ## Usage
 
