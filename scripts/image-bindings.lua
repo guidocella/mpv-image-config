@@ -51,10 +51,10 @@ mp.add_key_binding(nil, 'align-to-cursor', function (table)
     local dims = mp.get_property_native('osd-dimensions')
     mp.add_forced_key_binding('MOUSE_MOVE', 'align-to-cursor-mouse-move', function()
         local mouse_pos = mp.get_property_native('mouse-pos')
-        if dims.w - dims.ml - dims.mr > dims.w  then
+        if dims.ml + dims.mr < 0 then
             mp.set_property('video-align-x', (mouse_pos.x * 2 - dims.w) / dims.w)
         end
-        if dims.h - dims.mt - dims.mb > dims.h  then
+        if dims.mt + dims.mb < 0 then
             mp.set_property('video-align-y', (mouse_pos.y * 2 - dims.h) / dims.h)
         end
     end)
@@ -75,13 +75,13 @@ mp.add_key_binding(nil, 'drag-to-pan', function (table)
         -- 1 video-align shifts the OSD by (dimension - osd_dimension) / 2 pixels
         -- so the equation to find how much video-align to add to offset the OSD by the difference in mouse position is
         -- x/1 = (mouse_pos - old_mouse_pos) / ((dimension - osd_dimension) / 2)
-        if dims.w - dims.ml - dims.mr > dims.w then
+        if dims.ml + dims.mr < 0 then
             mp.set_property(
                 'video-align-x',
                 math.min(1, math.max(old_video_align_x + 2 * (mouse_pos.x - old_mouse_pos.x) / (dims.ml + dims.mr), -1))
             )
         end
-        if dims.h - dims.mt - dims.mb > dims.h then
+        if dims.mt + dims.mb < 0 then
             mp.set_property(
                 'video-align-y',
                 math.min(1, math.max(old_video_align_y + 2 * (mouse_pos.y - old_mouse_pos.y) / (dims.mt + dims.mb), -1))
