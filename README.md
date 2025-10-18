@@ -3,7 +3,7 @@ This is an example configuration for using mpv as an image viewer.
 ## Why?
 
 * mpv is feature rich and far more extensible than any image viewer. You can easily add key bindings, set up conditional profiles and do pretty much anything with scripts
-* Zoomed images look better than in image viewers with less advanced scaling
+* Zoomed images look better than in image viewers with less advanced scaling, and it can also scale with GLSL shaders
 * You can use quit-watch-later with directories of images
 * You can browse directories with both videos and images in one application
 * Background transparency
